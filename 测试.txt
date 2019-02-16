@@ -1,0 +1,18 @@
+jps
+hdfs dfsadmin -report
+mkdir bigdata/data
+hadoop namenode -format
+start-all.sh
+hdfs dfsadmin -report
+cd bigdata/
+mkdir input
+cd input/
+echo "hello world" > test1.txt
+echo "hello hadoop" > test2.txt
+cd hadoop/
+hadoop dfs -mkdir -p in
+hadoop dfs -put ../input in
+hadoop dfs -ls in/input
+hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-examples-2.7.1.jar wordcount in/input out
+hadoop dfs -ls out
+hadoop dfs -cat out/part-r-00000
